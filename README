@@ -1,0 +1,55 @@
+------------- Environment Variables --------------
+
+GOROOT: points to your binary installation of Go
+GOPATH: points to your go workspace
+GOBIN: points to the binary of package installations
+
+------------- Commands --------------
+
+go help: prints go commands helper
+go version: prints the go version
+go env: prints the go environment variables
+go fmt: formatter (its like prettier)
+go fmt ./...: format everything in the repo
+
+go run: run the go file
+go build: compiles the code into a .exe
+go install: install the go file into the GOBIN
+
+go mod init example.com/username/repo: initialize module
+go list -m all: show all dependencies
+go list -m -versions package: show all existent versions of package
+go get package: install dependency
+go get package@0.0.x: install dependency at version 0.0.x
+
+------------------ CheatSheet --------------------------
+- Initial code
+  package main
+
+  import (
+    "fmt"
+  )
+
+  func main() {
+    fmt.Println("Hello, playground")
+  }
+
+- Var Declaration
+  Can be used at the Package Level
+  Can be used without assign a initial value (assign Zero Value)
+
+  var x = 10
+  var y string = "Text"
+  var z bool
+
+- Short Declaration
+  x := 10
+  y := "Text
+
+- Types
+  int, bool, string,
+  var y string = "Text"
+
+  type MyType int
+
+  var z MyType = int
