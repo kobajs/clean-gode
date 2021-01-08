@@ -1,55 +1,286 @@
-------------- Environment Variables --------------
+# clean-gode
 
-GOROOT: points to your binary installation of Go
-GOPATH: points to your go workspace
-GOBIN: points to the binary of package installations
+## Table of Contents
 
-------------- Commands --------------
+1. [Introduction](#introduction)
+2. [Meaningful Names](#meaningful-names)
+3. [Functions](#functions)
+4. [Objects and Data Structures](#objects-and-data-structures)
+5. [Classes](#classes)
+6. [SOLID](#solid)
+7. [Testing](#testing)
+8. [Concurrency](#concurrency)
+9. [Error Handling](#error-handling)
+10. [Formatting](#formatting)
+11. [Comments](#comments)
+12. [Translation](#translation)
 
-go help: prints go commands helper
-go version: prints the go version
-go env: prints the go environment variables
-go fmt: formatter (its like prettier)
-go fmt ./...: format everything in the repo
+## Introduction
 
-go run: run the go file
-go build: compiles the code into a .exe
-go install: install the go file into the GOBIN
+![Humorous image of software quality estimation as a count of how many expletives
+you shout when reading code](https://www.osnews.com/images/comics/wtfm.jpg)
 
-go mod init example.com/username/repo: initialize module
-go list -m all: show all dependencies
-go list -m -versions package: show all existent versions of package
-go get package: install dependency
-go get package@0.0.x: install dependency at version 0.0.x
+Software engineering principles, from Robert C.Martin's book [_Clean Code_](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship-ebook/dp/B001GSTOAM), adapted for [Golang](https://golang.org/). Here you will find useful DO's and DONT's that focus on good quality of code, producing [readable, reusable and refactorable](https://github.com/ryanmcdermott/3rs-of-software-architecture) software in Golang.
 
------------------- CheatSheet --------------------------
-- Initial code
-  package main
+First of all, it could have some disagreement about the recommendations below and it's fine. Even the author says that his book is not a list of strict rules, but it's extremally important to notice that his creation is from good years of experience on area, discussions with high level software engineers and tons of research.
 
-  import (
-    "fmt"
-  )
+Personally, what I like from this book is the way that tells to programmers that coding is just like poetry, it needs to be pleasant to read, organized harmonically and give a story to the user. It's a care with the expressiveness of the author.
 
-  func main() {
-    fmt.Println("Hello, playground")
-  }
+Also, it does not guarantee that after the read, you will be the best developer. Instead of that, practicing and collaborating with your own experiences through this rules (and others) for years, you will became a better developer.
 
-- Var Declaration
-  Can be used at the Package Level
-  Can be used without assign a initial value (assign Zero Value)
+## Meaningful Names
 
-  var x = 10
-  var y string = "Text"
-  var z bool
+The name of a variable, function, or class, should answer all the big questions. It should tell why it exists, what it does and how it is used.
 
-- Short Declaration
-  x := 10
-  y := "Text
+### Use Intention-Revealing Names
 
-- Types
-  int, bool, string,
-  var y string = "Text"
+If a name requires a comment, then the name does not reveal its intent.
 
-  type MyType int
+** Bad: **
+```go
+var cs string // Company Street
+```
 
-  var z MyType = int
+** Good: **
+```go
+var companyAddress string
+```
+
+### Avoid Disinformation
+
+**Avoid names with structure at suffix if it is not one: accountList (need to be a List or should be called only accounts).**
+Avoid names like "O"/0 and "l"/1. Font can trick the reader.
+Avoid poor names used in systems: hp could be Unix system of hypotenuse.
+
+### Make Meaningful Distinctions
+
+It's hard to decide which to use if it's hard to distinct between similar or synonym meaning.
+
+** Bad: **
+
+```go
+var product Product
+var productData Product
+var productInfo Product
+
+var user User
+var theUser User
+var aUser User
+
+var order1 Order
+var order2 Order
+
+var valueInt int
+var nameString string
+
+func getDisabledUser() {}
+func getDisabledUsers() {}
+func getDisabledUserList() {}
+```
+
+** Good: **
+
+```go
+var productOrigin Address
+var productDestiny Address
+```
+
+### Use Pronounceable Names
+
+When a name is pronounceable, it's easier to associate to something, it turns to be closer of real world understanding
+
+** Bad: **
+
+```go
+var genymdhms time.Time
+var uaid string
+```
+
+** Good: **
+
+```go
+var generationTimestamp time.Time
+var userAccountId string
+```
+
+### Use Searchable Names
+
+Single-letter names and numeric constants are harder to locate them. Try to assign with a meaning variable to be easier to found
+
+** Bad: **
+
+```go
+const n int = 5
+const h int = 8
+```
+
+** Good: **
+
+```go
+const WORK_DAYS_PER_WEEK int = 5
+const WORK_HOURS int = 8
+```
+
+### Avoid Encondings / Hungarian Notations / Member prefixes
+
+Encoding means that it's another language to be learned and simply burns unnecesarily our brain.
+
+There's a dark time that hungarian notation was useful. With the modern IDE's, it's not necessary anymore.
+
+Also member prefixes have high changes to be ignored.
+
+** Bad: **
+
+```go
+const c_maxMoves int = 20
+
+var strStreet string
+var i64CoordX int64
+
+var u_user User
+```
+
+** Good: **
+
+```go
+const characterMaxMoves int = 20
+
+var street string
+var coordX int64
+
+var user User
+```
+
+### Interfaces and Implementations
+
+Interfaces allow you to define behavior without exposing internal implementation.
+
+Those that designed this incredible language likes the quote "if it walks like a duck, swims like a duck and quacks like a duck, then it’s a duck".
+Note: Go delivers interfaces automagically and implicitly.
+
+If we have interfaces, we also have implementations by a concrete class and there is special cases that their names are similars. So, here we could have a bit of encoding. Saying that, it's better to deliver a pleasant interface name than the implementation.
+
+** Bad: **
+
+```go
+type IShapeFactory interface { }
+type shapeFactory struct { }
+```
+
+** Good: **
+
+```go
+type ShapeFactory interface { }
+type ShapeFactoryImpl struct { }
+```
+
+### Avoid Mental Mapping
+
+Readers shouldn't have to mentally translate names into other names they already know. E.g: Short variable names like _a_, _j_ and _i_ are useful when the function is shorten, otherwise became an unnecesary mental mapping.
+
+### Class and Object Names
+
+Should have noun or noun phrases names like _Chapter_, _Process_, _Step_, and _AddressParser_. Avoid words like _Manager_, _Processor_, _Data_, or _Info_ and verbs.
+
+### Method Names
+
+Should have verb or verb phrase names like _addStep_, _deletePage_, or _create_. Accessors, mutators, and predicates should be named for their value and prefixed with _get_, _set_, and _is_.
+
+### Don't Be Cute
+
+Choose clarity over entertainment
+
+** Bad: **
+
+```go
+func whack() { }
+func eatMyShort() { }
+func goodbyeUser() { }
+```
+
+** Good: **
+
+```go
+func kill() { }
+func abort() { }
+func removeUser() { }
+```
+
+### Pick One Word per Concept
+
+Avoid different method names with _fetch_, _retrieve_, and _get_ as prefix. Get one of them and stick with it.
+A consistent lexicon is a great boon to the programmers who must use your code.
+
+** Bad: **
+
+```go
+func (a Address) getAddress(id int) { }
+func (p Person) retrievePerson(id int) { }
+func (c Company) fetchCompany(id int) { }
+```
+
+** Good: **
+
+```go
+func (a Address) getAddress(id int) { }
+func (p Person) getPerson(id int) { }
+func (c Company) getCompany(id int) { }
+```
+
+### Don't Pun
+
+Avoid using the same word for two purposes.
+Add to create or concatenate should be divided into insert and append
+
+** Bad: **
+
+```go
+func (a Address) addAddress(a Address) {
+  db.Create(&a)
+}
+
+func (pl *PersonList) addPerson(p Person) {
+  *pl = append(*pl, p)
+}
+```
+
+** Good: **
+
+```go
+func (a Address) insertAddress(a Address) {
+  db.Create(&a)
+}
+
+func (pl *PersonList) appendPerson(p Person) {
+  *pl = append(*pl, p)
+}
+```
+
+### Use Solution Domain Names
+
+Avoid using the same word for two purposes.
+Add to create or concatenate should be divided into insert and append
+
+** Bad: **
+
+```go
+func (a Address) addAddress(a Address) {
+  db.Create(&a)
+}
+
+func (pl *PersonList) addPerson(p Person) {
+  *pl = append(*pl, p)
+}
+```
+
+** Good: **
+
+```go
+func (a Address) insertAddress(a Address) {
+  db.Create(&a)
+}
+
+func (pl *PersonList) appendPerson(p Person) {
+  *pl = append(*pl, p)
+}
+```
