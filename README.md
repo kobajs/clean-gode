@@ -36,12 +36,14 @@ The name of a variable, function, or class, should answer all the big questions.
 
 If a name requires a comment, then the name does not reveal its intent.
 
-** Bad: **
+**Bad:**
+
 ```go
 var cs string // Company Street
 ```
 
-** Good: **
+**Good:**
+
 ```go
 var companyAddress string
 ```
@@ -56,7 +58,7 @@ Avoid poor names used in systems: hp could be Unix system of hypotenuse.
 
 It's hard to decide which to use if it's hard to distinct between similar or synonym meaning.
 
-** Bad: **
+**Bad:**
 
 ```go
 var product Product
@@ -78,7 +80,7 @@ func getDisabledUsers() {}
 func getDisabledUserList() {}
 ```
 
-** Good: **
+**Good:**
 
 ```go
 var productOrigin Address
@@ -89,14 +91,14 @@ var productDestiny Address
 
 When a name is pronounceable, it's easier to associate to something, it turns to be closer of real world understanding
 
-** Bad: **
+**Bad:**
 
 ```go
 var genymdhms time.Time
 var uaid string
 ```
 
-** Good: **
+**Good:**
 
 ```go
 var generationTimestamp time.Time
@@ -107,14 +109,14 @@ var userAccountId string
 
 Single-letter names and numeric constants are harder to locate them. Try to assign with a meaning variable to be easier to found
 
-** Bad: **
+**Bad:**
 
 ```go
 const n int = 5
 const h int = 8
 ```
 
-** Good: **
+**Good:**
 
 ```go
 const WORK_DAYS_PER_WEEK int = 5
@@ -129,7 +131,7 @@ There's a dark time that hungarian notation was useful. With the modern IDE's, i
 
 Also member prefixes have high changes to be ignored.
 
-** Bad: **
+**Bad:**
 
 ```go
 const c_maxMoves int = 20
@@ -140,7 +142,7 @@ var i64CoordX int64
 var u_user User
 ```
 
-** Good: **
+**Good:**
 
 ```go
 const characterMaxMoves int = 20
@@ -160,14 +162,14 @@ Note: Go delivers interfaces automagically and implicitly.
 
 If we have interfaces, we also have implementations by a concrete class and there is special cases that their names are similars. So, here we could have a bit of encoding. Saying that, it's better to deliver a pleasant interface name than the implementation.
 
-** Bad: **
+**Bad:**
 
 ```go
 type IShapeFactory interface { }
 type shapeFactory struct { }
 ```
 
-** Good: **
+**Good:**
 
 ```go
 type ShapeFactory interface { }
@@ -190,7 +192,7 @@ Should have verb or verb phrase names like _addStep_, _deletePage_, or _create_.
 
 Choose clarity over entertainment
 
-** Bad: **
+**Bad:**
 
 ```go
 func whack() { }
@@ -198,7 +200,7 @@ func eatMyShort() { }
 func goodbyeUser() { }
 ```
 
-** Good: **
+**Good:**
 
 ```go
 func kill() { }
@@ -211,7 +213,7 @@ func removeUser() { }
 Avoid different method names with _fetch_, _retrieve_, and _get_ as prefix. Get one of them and stick with it.
 A consistent lexicon is a great boon to the programmers who must use your code.
 
-** Bad: **
+**Bad:**
 
 ```go
 func (a Address) getAddress(id int) { }
@@ -219,7 +221,7 @@ func (p Person) retrievePerson(id int) { }
 func (c Company) fetchCompany(id int) { }
 ```
 
-** Good: **
+**Good:**
 
 ```go
 func (a Address) getAddress(id int) { }
@@ -232,7 +234,7 @@ func (c Company) getCompany(id int) { }
 Avoid using the same word for two purposes.
 Add to create or concatenate should be divided into insert and append.
 
-** Bad: **
+**Bad:**
 
 ```go
 func (a Address) addAddress(a Address) {
@@ -244,7 +246,7 @@ func (pl *PersonList) addPerson(p Person) {
 }
 ```
 
-** Good: **
+**Good:**
 
 ```go
 func (a Address) insertAddress(a Address) {
@@ -261,7 +263,7 @@ func (pl *PersonList) appendPerson(p Person) {
 Avoid using the same word for two purposes.
 Add to create or concatenate should be divided into insert and append.
 
-** Bad: **
+**Bad:**
 
 ```go
 func (a Address) addAddress(a Address) {
@@ -273,7 +275,7 @@ func (pl *PersonList) addPerson(p Person) {
 }
 ```
 
-** Good: **
+**Good:**
 
 ```go
 func (a Address) insertAddress(a Address) {
@@ -289,13 +291,13 @@ func (pl *PersonList) appendPerson(p Person) {
 
 Problems that has specific domains should be explicitly at names. At least the programmers have a chance to ask to domain expert.
 
-** Bad **
+**Bad:**
 
 ```go
 var t boolean
 ```
 
-** Good **
+**Good:**
 
 ```go
 var freightTracker boolean
@@ -305,14 +307,14 @@ var freightTracker boolean
 
 It's better to add context to variable names if they are from same concept.
 
-** Bad **
+**Bad:**
 
 ```go
 var impact int
 var outcome int
 ```
 
-** Good **
+**Good:**
 
 ```go
 var gameDecisionImpact int
@@ -325,7 +327,7 @@ Also, we clearly can see that they can be part of a GameDecision class.
 
 Don't add context unnecessarily. With modern tools, we can easily found the classes, so it may not interesting to add some prefixes.
 
-** Bad **
+**Bad:**
 
 ```go
 var accountAddress AccountAddress
@@ -333,7 +335,7 @@ var customerAddress CustomerAddress
 var companyAddress Company Address
 ```
 
-** Good **
+**Good:**
 
 ```go
 var accountAddress Address
@@ -349,62 +351,62 @@ Obs: there is a high change that those Address classes has same attributes, so i
 
 Smaller functions implies into better understand and easy to test.
 
-** Bad **
+**Bad:**
 
 ```go
 func (cc *CompanyController) CreateCompany(c *gin.Context) {
-	var companyAuth struct {
-		Email    string `json:"email" binding:"required" gorm:"-"`
-		Phone    string `json:"phone" binding:"required" gorm:"-"`
-		Password string `json:"password" binding:"required" gorm:"-"`
-		Name     string `json:"name" binding:"required" gorm:"-"`
-	}
-	var company model.Company
+  var companyAuth struct {
+    Email    string `json:"email" binding:"required" gorm:"-"`
+    Phone    string `json:"phone" binding:"required" gorm:"-"`
+    Password string `json:"password" binding:"required" gorm:"-"`
+    Name     string `json:"name" binding:"required" gorm:"-"`
+  }
+  var company model.Company
 
-	err := c.ShouldBindBodyWith(&companyAuth, binding.JSON)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+  err := c.ShouldBindBodyWith(&companyAuth, binding.JSON)
+  if err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
 
-	err = c.ShouldBindBodyWith(&company, binding.JSON)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+  err = c.ShouldBindBodyWith(&company, binding.JSON)
+  if err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
 
-	authParams := (&auth.UserToCreate{}).
-		Email(companyAuth.Email).
-		PhoneNumber(companyAuth.Phone).
-		Password(companyAuth.Password).
-		DisplayName(companyAuth.Name)
+  authParams := (&auth.UserToCreate{}).
+    Email(companyAuth.Email).
+    PhoneNumber(companyAuth.Phone).
+    Password(companyAuth.Password).
+    DisplayName(companyAuth.Name)
 
-	u, err := firebase.Conn.Auth.CreateUser(context.Background(), authParams)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+  u, err := firebase.Conn.Auth.CreateUser(context.Background(), authParams)
+  if err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
 
-	company.ID = u.UID
+  company.ID = u.UID
 
-	err = DB.Conn.Create(&company).Error
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
+  err = DB.Conn.Create(&company).Error
+  if err != nil {
+    c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+    return
+  }
 
-	c.JSON(http.StatusOK, gin.H{"status": "Success!"})
+  c.JSON(http.StatusOK, gin.H{"status": "Success!"})
 }
 ```
 
-** Good **
+**Good:**
 
 ```go
 func (cc *CompanyController) CreateCompany(c *gin.Context) {
   id, err := firebase.auth.signup(c) // here we bind the JSON as we need and do the signup
   if err != nil {
     // inside of signup, we can put the return error
-		return
+    return
   }
 
   err = DB.Conn.Create(c, id)
@@ -412,7 +414,7 @@ func (cc *CompanyController) CreateCompany(c *gin.Context) {
     return
   }
 
-	c.JSON(http.StatusOK, gin.H{"status": "Success!"})
+  c.JSON(http.StatusOK, gin.H{"status": "Success!"})
 }
 ```
 
@@ -420,7 +422,7 @@ func (cc *CompanyController) CreateCompany(c *gin.Context) {
 
 Probably if, else, while, etc. statements should be one line long.
 
-** Bad **
+**Bad:**
 
 ```go
 if minimumPrice != "" {
@@ -430,7 +432,7 @@ if minimumPrice != "" {
 }
 ```
 
-** Good **
+**Good:**
 
 ```go
 if minimumPrice != "" {
@@ -444,6 +446,7 @@ Functions should do one thing. They should do it well.
 > They should do it only - Jennifer M Kohnks
 
 Using the same example of [Small](#small):
+
 - Now the function is small
 - And also only does one thing, register the user (before of that was doing some validations and bindings)
 
@@ -454,6 +457,7 @@ A function should have only one abstraction concept, it will make easier to othe
 Using the same example of [Small](#small):
 
 We can clearly see that the code was doing different abstract level actions, it:
+
 - Creates the necessary structures through low level syntaxes
 - Does the json binding through framework-specific function
 - Access Auth Service for user signup
@@ -464,35 +468,36 @@ Right at the **Good** it does as actions, but at mean functions
 ### Switch Statements
 
 Avoid.
+
 1. Each new case, it will grow the function (impacting small principle).
 2. Does more than one thing.
 3. Violates Single Responsability Principle.
 4. Violates Open Closed Principle because it must change whenever new case is added.
 
-** Bad **
+**Bad:**
 
 ```go
 switch orderBy {
-	case "newest":
-		query = query.Order("created_at DESC")
+  case "newest":
+    query = query.Order("created_at DESC")
 
-	case "highest_price":
-		query = query.Order("price DESC")
+  case "highest_price":
+    query = query.Order("price DESC")
 
-	case "lowest_weight":
-		query = query.Order("weight ASC")
+  case "lowest_weight":
+    query = query.Order("weight ASC")
 
-	default:
+  default:
 }
 ```
 
-** Good **
+**Good:**
 
 ```go
 orderOptions := map[string]string{
-	"newest":        "created_at DESC",
-	"highest_price": "price DESC",
-	"lowest_weight": "weight DESC",
+  "newest":        "created_at DESC",
+  "highest_price": "price DESC",
+  "lowest_weight": "weight DESC",
 }
 
 query = query.Order(orderOptions[orderBy])
@@ -504,7 +509,7 @@ You know you are working on clean code when each routine turns out to be pretty 
 
 Long descriptive name > short enigmatic name
 
-** Bad **
+**Bad:**
 
 ```go
 // In a game context, what should be restarted? The entire game? A specific phase?
@@ -522,17 +527,17 @@ func goToCheckpoint() {}
 Ideally 0 (niladic) > 1 (monadic) > 2 (dyadic) > 3 (triadic, avoid) > polyadic (requires very special justification).
 It envolves test environment too, its easy to test with 0 or 1 args, but more than that, we have a combination at tests too.
 
-** Bad **
+**Bad:**
 
 ```go
 // To test it, will require many input permutations
 func jumpStory(
-	jumpStep int,
-	outcome string,
-	impact int,
-	move int,
-	jumpChapter int,
-	speedBonus int,
+  jumpStep int,
+  outcome string,
+  impact int,
+  move int,
+  jumpChapter int,
+  speedBonus int,
 ) {}
 ```
 
@@ -547,23 +552,23 @@ func calculateMovement(move int, speedBonus int) {}
 Avoid.
 It immediatly proclaim that this function does more than one thing.
 
-** Bad **
+**Bad:**
 
 ```go
 func renderGameOver(isFailure boolean) {
-	if isFailure == true {
-		// ...
-		return render("It wasnt this time, Link")
-	} else {
-		// ...
-		return render("Hello Zelda, goodbye Ganon")
-	}
+  if isFailure == true {
+    // ...
+    return render("It wasnt this time, Link")
+  } else {
+    // ...
+    return render("Hello Zelda, goodbye Ganon")
+  }
 }
 ```
 
-** Good **
+**Good:**
 
-``go
+```go
 func renderSuccessEnd() {}
 func renderFailureEnd() {}
 ```
@@ -572,21 +577,21 @@ func renderFailureEnd() {}
 
 When a function need more than two or three args, probably could be wrapped into a class.
 
-** Bad **
+**Bad:**
 
 ```go
 func calculateRectangleArea(height int, width, int) {}
 ```
 
-** Good **
+**Good:**
 
 ```go
 func calculateRectangleArea(rectangle Rectangle) {}
 
 // Also, we can create a class for that:
 type Rectangle struct {
-	width int
-	height int
+  width int
+  height int
 }
 
 func (r *Rectangle) area() {}
@@ -604,14 +609,14 @@ A function is an action, so it should be a verb.
 Keywords at funcion name can help us to avoid cognitive process by remembering what the the function (verb) does.
 Also, it mitigates the problem of having to remember the ordering of the arguments.
 
-** Bad **
+**Bad:**
 
 ```go
 func write(name string) {}
 func assertStringEquals(expect string, actual string) {}
 ```
 
-** God **
+**Good:**
 
 ```go
 func writeField(name string) {}
@@ -650,7 +655,7 @@ Returning error codes goes counter than Command Query Separation.
 Following Edsger Dijkstra's rules,  every function and every block within, should have one entry and one exit, so only one return statement
 Avoid break, continue and never use goto statements
 
-5. Formatting
+5.Formatting
 
 The code should be nicely formatted. For that we have automated tools with rules that need to be complied to the entire team.
 
@@ -675,6 +680,7 @@ At downward, the details increase
 All code is read left to right and top to bottom. Each line represents an expression or a clause, and each group of lines represents a complete thought. Those thoughts should be separated from each other with blank lines
 
 ### Vertical Density
+
 If opennes separates concepts, then vertical density implies close association
 
 ### Vertical Distance
@@ -711,7 +717,7 @@ Extremally important to visually understand hierarchy of block's information. In
 
 Every programmer has his own favorite formatting rules, but all of the team need to agree and stick with one. This will give a consistent and smooth style.
 
-6. Objects and Data Structures
+6.Objects and Data Structures
 
 There's a reason to keep variables private, avoid dependancy of other modules and isolate the implementation
 
@@ -781,15 +787,16 @@ Avoid to put business rules methods in them because it creates a hybrid structur
 ### Conclusion
 
 Objects expose behavior and hide data.
+
 + Easy to add new objects without changing existing behavior
 - Harder to add new behavior to existing objects
 
-
 Data structures expose data and have no significant behavior.
+
 + Easier to add new behavior to existing data structures
 - Harder to add new data structures to existing functions
 
-7. Error Handling
+7.Error Handling
 
 Needs to be a natural step of programing
 Inputs can be unexpected abnormal and devices can fail. Programmers are responsible to create a code that do what needs to do
@@ -837,7 +844,7 @@ Avoid passing null in your code whenever possible
 
 Clean code is readable, but it must also be robust. These are not conflicting goals. We can write robust clean code if we see error handling as a separate concern, something that is viewable independently of our main logic. To the degree that we are able to do that, we can reason about it independently, and we can make great strides in the maintainability of our code.
 
-8. Boundaries
+8.Boundaries
 Sometimes we buy third-party packages, use open source or depend on teams in own company to produce components or subsystems for us. Somehow we must cleanly integrate this foreign code with our own. This chapter tells good practices and techniques to keep the boundaries of our software clean.
 
 ### Using Third-Party Code
@@ -866,7 +873,7 @@ This design provides a convenient stub to test the behaviors.
 When we use code that is out of our control, special care must be taken to protect our investment and make sure future change is not too costly
 Code at the boundaries needs clear separation and tests that define expectations. We should avoid letting toomuch of our code know about the third-party particulars. It's better to depend on something you control than on something you don't control, lest it end up controlling you
 
-9. Unit Tests
+9.Unit Tests
 
 Unclebob quotes one experience of him. As summary, nowadays he would write tests that make sure any piece of code works as expected. Including stubs and mocks. After that, he would improve the suit of tests to run on every environment to make sure that his co-workers could run.
 Agile and TDD movements have encouraged programmers to write automated unit tests.
@@ -933,7 +940,7 @@ T.imely: Tests need to be written in a timely fashion. Unit tests should be writ
 Tests are as important to the health of a project as the production code is. Perhaps they are even more important, because tests preserve and enhance the flexibility, maintainability and reusability of the production code
 If you let the tests rot, then your code will rot too. Keep your tests clean
 
-10. Classes
+10.Classes
 
 ### Class Organization
 
@@ -999,7 +1006,7 @@ The lack of coupling means that the elements of our system are better isolated f
 Unclebob uses Portfolio example that depends upon concrete class TokyoStockExchange. He creates the StockExchange abstract class and now Tokyo... implements this abstract class. Also Portfolio pass to depend upon an abstract class, decoupling Portfolio from all specific details of a specific X Stock such as price or format
 By minimizing coupling in this way, our classes adhere to another class design principle known as the Dependency Inversion Principle (DIP) that says that our classes should depend upon abstractions, not on concrete details
 
-11. Systems
+11.Systems
 "Complexity kills. It sucks the life out of developers, it makes products difficult to pan, build, and test." - Ray Ozzie, CTO, Microsoft Corporation
 
 ### How Would you Build a City?
@@ -1063,7 +1070,7 @@ The agility provided by a POJO system with modularized concerns allows us to mak
 
 ### Use Standards Wisely, When They Add Demonstrable Value
 
-Standards make it easier to reuse ideas and components, recruit people with relevant experience, encapsulate good ideas, and wire components together. However, the process 
+Standards make it easier to reuse ideas and components, recruit people with relevant experience, encapsulate good ideas, and wire components together. However, the process.
 
 of creating standards can sometimes take too long for industry to wait, and some standards lose touch with the real needs of the adapters they are intended to serve
 
@@ -1079,7 +1086,7 @@ Domain-Specific Languages allow all levels of abstraction and all domains in the
 
 System must be clean too. An invasive architecture overwhelms the domain logic and impacts agility. When the domain logic is obscured, quality suffers because bugs find it easier to hide and stories become harder to implement. If agility is compromised, productivity suffers and the benefits of TDD are lost
 
-12. Emergence
+12.Emergence
 
 ### Getting Clean via Emergent Design
 
@@ -1127,7 +1134,7 @@ High class and method counts are sometimes the result of pointless dogmatism. Th
 
 Following the practice of simple design can and does encourage and enable developers to adhere to good principles and patterns that otherwise take years to learn
 
-13. Concurrency
+13.Concurrency
 
 "Objects are abstractions of processing. Threads are abstractions of schedule." - James O.Coplien
 
