@@ -597,11 +597,22 @@ type Rectangle struct {
 func (r *Rectangle) area() {}
 ```
 
-### Argument Lists (REREAD)
+### Argument Lists
 
-void monad (Integer... args)
-void dyad (String name, Integer... args)
-void triad (String name, int count, Integer... args)
+First, giving a function signature example:
+
+```go
+func Println(a ...interface{}) {}
+```
+
+Here, it's applied the same rules of [Function Arguments](#function-arguments) and say that its a **monadic** because we can clearly see a list of variable type as the first argument.
+
+Other examples:
+
+```go
+func Printf(format string, a ...interface{})) {} // dyadic
+func Sscanf(str string, format string, a ...interface{}) {} // triadic
+```
 
 ### Verbs and Keywords
 
