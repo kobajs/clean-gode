@@ -638,9 +638,45 @@ func assertStringExpectedEqualsActual (expect string, actual string) {}
 
 Side effects are lies. It goes counter of "make one thing".
 
+**Bad:**
+
+```go
+func addStreetLine(oldLine string, lineToAdd string, fullAddress *string) string {
+  newLine := oldLine + "\n" + lineToAdd
+  *fullAddress = strings.Replace(*fullAddress, oldLine, newLine, 1)
+
+  return newLine
+}
+```
+
+**Good:**
+
+```go
+func addStreetLine(oldLine string, lineToAdd string) string {
+  return oldLine + "\n" + lineToAdd
+}
+func getFullAddress() {}
+```
+
 ### Output Arguments
 
 In general output arguments should be avoided. If your function must change the state of something, have it change the state of its owning object
+
+**Bad:**
+
+```go
+func addStreetLine(oldAddressLine *string, newAddressLine string) {
+	*oldAddressLine = newAddressLine
+}
+```
+
+**Good:**
+
+```go
+func addStreetLine(oldAddress *string, newAddress string) {
+	*oldAddress = newAddress
+}
+```
 
 ### Command Query Separation
 
