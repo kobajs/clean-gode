@@ -845,16 +845,17 @@ Note: This rule provide significant benefit on large function. Since we are lear
 
 ## Comments
 
-> “Don’t comment bad code—rewrite it.” *- Brian W. Kernighan and P. J. Plaugher*
+> Don’t comment bad code—rewrite it. *- Brian W. Kernighan and P. J. Plaugher*
+
 > Comments are, at best, a necessary evil. If our programming language were expressive enough, they aren't needed. *- Uncle Bob*
 
 My Note: it goes counter of Go project that takes documentation seriously. It guides you document as much as possible: type, variable, function, package.
 
 The documentation seems to be intrinsically part of development cycle.
 
-*Code changes and evolves. ... Unfortunately the comments don't always follow them - can't always follow them*. Once it's part of development cycle, seems to be reasonable that comments will evolve in parallel with the code.
+> Code changes and evolves. ... Unfortunately the comments don't always follow them - can't always follow them *- Uncle Bob*.
 
-Martin, Robert C.. The Robert C. Martin Clean Code Collection (Collection) (Robert C. Martin Series) (p. 113). Pearson Education. Kindle Edition. 
+Once it's part of development cycle, seems to be reasonable that comments will evolve in parallel with the code.
 
 This [article](https://blog.golang.org/godoc) tells a little bit about that.
 
