@@ -852,11 +852,73 @@ My Note: it goes counter of Go project that takes documentation seriously. It gu
 
 The documentation seems to be intrinsically part of development cycle.
 
+*Code changes and evolves. ... Unfortunately the comments don't always follow them - can't always follow them*. Once it's part of development cycle, seems to be reasonable that comments will evolve in parallel with the code.
+
+Martin, Robert C.. The Robert C. Martin Clean Code Collection (Collection) (Robert C. Martin Series) (p. 113). Pearson Education. Kindle Edition. 
+
 This [article](https://blog.golang.org/godoc) tells a little bit about that.
 
 Also, directly from the Effective Go, the [Commentary](https://golang.org/doc/effective_go.html#commentary) section.
 
 I'll jump **Bad** and **Good** examples here until I get more property in this subject, but will let my notes.
+
+### Comments Do Not Make Up for Bad Code
+
+Prefer clear and expressive code with few comments than messy code with lots of comments.
+
+Spend the time supposed to write comment to organized the code.
+
+### Explain Yourself in Code
+
+### Good Comments
+
+#### Legal Comments
+
+#### Informative Comments
+
+#### Explanation of Intent
+
+#### Clarification
+
+#### Warning of Consequences
+
+#### TODO Comments
+
+#### Amplification
+
+### Bad Comments
+
+#### Mumbling
+
+#### Redundant Comments
+
+#### Misleading Comments
+
+#### Mandated Comments
+
+#### Journal Comments
+
+#### Noise Comments
+
+#### Scary Noise
+
+#### Position Markers
+
+#### Closing Brace Comments
+
+#### Attributions and Bylines
+
+#### Commented-Out Code
+
+#### HTML Comments
+
+#### Nonlocal Information
+
+#### Too Much Information
+
+#### Inobvious Connection
+
+#### Function Headers
 
 ## Formatting
 
