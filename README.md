@@ -845,7 +845,18 @@ Note: This rule provide significant benefit on large function. Since we are lear
 
 ## Comments
 
-> “Don’t comment bad code—rewrite it.” —Brian W. Kernighan and P. J. Plaugher
+> “Don’t comment bad code—rewrite it.” *- Brian W. Kernighan and P. J. Plaugher*
+> Comments are, at best, a necessary evil. If our programming language were expressive enough, they aren't needed. *- Uncle Bob*
+
+My Note: it goes counter of Go project that takes documentation seriously. It guides you document as much as possible: type, variable, function, package.
+
+The documentation seems to be intrinsically part of development cycle.
+
+This [article](https://blog.golang.org/godoc) tells a little bit about that.
+
+Also, directly from the Effective Go, the [Commentary](https://golang.org/doc/effective_go.html#commentary) section.
+
+I'll jump **Bad** and **Good** examples here until I get more property in this subject, but will let my notes.
 
 ## Formatting
 
