@@ -722,7 +722,6 @@ if a.attributeExists("name") == true {
 }
 ```
 
-
 ### Prefer Exceptions to Returning Error Codes | Extract Try/Catch Blocks
 
 Go doesn't have exceptions, the language's creators believe that coupling exceptions to a control structure, like `try-catch-finally` idiom, results in convoluted code.
@@ -731,14 +730,124 @@ More on [Why does Go not have exceptions?](https://golang.org/doc/faq#exceptions
 
 ### Error Handling is One Thing
 
+If we create another function to handle the error, we guarantee that it does one thing and not violates [Do One Thing](#do-one-thing).
+
+**Bad:**
+
+```go
+func createUser(c *gin.Context) {
+  err = Database.Create(&user).Error
+	if err != nil {
+    BugTracking.notify()
+    authErr := firebase.DeleteUser(user.UID)
+
+    if authErr != nil {
+      c.JSON(http.StatusInternalServerError, gin.H{"error": "Error on Delete User at Firebase Auth"})
+      return
+    }
+
+    c.JSON(http.StatusInternalServerError, gin.H{"error": "Error on Create User at Database"})
+    return
+  }
+}
+```
+
+We can see that the external error handling is doing three things:
+- Notifying the bug tracking
+- Deleting user from auth service (and also error handling it)
+- Appending the error to the response
+
+**Good:**
+
+```go
+func createUser(c *gin.Context) {
+  // ...
+  err = Database.Create(&user).Error
+	if err != nil {
+    dbCreateUserErrorHandling(user, c)
+    return
+	}
+}
+
+func dbCreateUserErrorHandling(user User, c *gin.Context) {
+  BugTracking.notify()
+  deleteUserFromAuth(user.UID)
+  c.JSON(http.StatusInternalServerError, gin.H{"error": "Error on Create User at Database"})
+  // Here, we can create another function for this error to not violate the [One Level of Abstraction per Function](#one-level-of-abstraction-per-function) rule.
+}
+```
+
 ### Dont Repeat Yourself (DRY)
+
+This principle states that duplication in logic should be eliminated via abstraction.
+
+It will avoid duplicate test and enforces the use of small functions.
+
+**Bad:**
+
+```go
+func main() {
+  user1 := User{
+    firstName: "Yuri",
+    lastName: "Kobashigawa",
+  }
+
+  user2 := User{
+    firstName: "Marcelo",
+    lastName: "Barreto",
+  }
+
+  user3 := User{
+    firstName: "Andrew",
+    lastName: "Hanasiro",
+  }
+
+  fmt.Println(user1.firstName + " " + user1.lastName)
+  fmt.Println(user2.firstName + " " + user2.lastName)
+  fmt.Println(user3.firstName + " " + user3.lastName)
+}
+```
+
+**Good:**
+
+```go
+func main() {
+	users := []User{
+		User{
+			firstName: "Yuri",
+			lastName:  "Kobashigawa",
+		},
+		User{
+			firstName: "Marcelo",
+			lastName:  "Barreto",
+		},
+		User{
+			firstName: "Andrew",
+			lastName:  "Hanasiro",
+		},
+  }
+  
+  printUsers(users)
+}
+
+func printUsers(users []User) {
+  for i := 0; i < len(users); i++ {
+    fmt.Println(users[i].firstName + " " + users[i].lastName)
+  }
+}
+```
 
 ### Structured Programming
 
-Following Edsger Dijkstra's rules,  every function and every block within, should have one entry and one exit, so only one return statement
-Avoid break, continue and never use goto statements
+Edsger Dijkstra's rules says that every function and every block within, should have one entry and one exit, so only one return statement.
 
-5.Formatting
+Note: This rule provide significant benefit on large function. Since we are learning to write small function, it will have no harm and sometimes can be more expressive than the single-entry, single-exit rule.
+
+## Comments
+
+> “Don’t comment bad code—rewrite it.” —Brian W. Kernighan and P. J. Plaugher
+
+## Formatting
 
 The code should be nicely formatted. For that we have automated tools with rules that need to be complied to the entire team.
 
