@@ -660,38 +660,74 @@ func getFullAddress() {}
 
 ### Output Arguments
 
-In general output arguments should be avoided. If your function must change the state of something, have it change the state of its owning object
+In general output arguments should be avoided.
+If your function must change the state of something, have it change the state of its owning object.
 
 **Bad:**
 
 ```go
-func addStreetLine(oldAddressLine *string, newAddressLine string) {
-	*oldAddressLine = newAddressLine
+func addStreetLine(oldStreetLine *string, newStreetLine string) {
+	*oldStreetLine += "\n" + newStreetLine
 }
 ```
 
 **Good:**
 
 ```go
-func addStreetLine(oldAddress *string, newAddress string) {
-	*oldAddress = newAddress
+type Address struct { /* ... */ }
+func (a *Address) addStreetLine(line string) {
+  a.streetLine += "\n" + line
 }
 ```
 
 ### Command Query Separation
 
 Functions should either do something or answer something, but not both.
-E.g.
-if (attributeExists ("username")) setAttribute ("username", "unclebob")
->
-if (setAttribute ("username", "unclebob")O
 
-### Prefer Exceptions to Returning Error Codes
+**Bad:**
 
-Returning error codes goes counter than Command Query Separation.
-[Yuri] It goes counter of Go pattern that handle error right after the function, but its explained below why
+```go
+type Anonymap map[string]string
+func (a Anonymap) setAttribute(key string, value string) bool {
+	if a[key] != "" {
+		a[key] = value
+		return true
+	}
+	return false
+}
 
-### Extract Try/Catch Blocks
+if a.setAttribute("name", "Yuri") == true {
+  // ...
+}
+```
+
+**Good:**
+
+```go
+type Anonymap map[string]string
+
+func (a Anonymap) setAttribute(key string, value string) {
+  a[key] = value
+}
+func (a Anonymap) attributeExists(key string) bool {
+  if (a[key] != "") {
+    return true
+  }
+  return false
+}
+
+if a.attributeExists("name") == true {
+  a.setAttribute("name", "Yuri")
+  // ...
+}
+```
+
+
+### Prefer Exceptions to Returning Error Codes | Extract Try/Catch Blocks
+
+Go doesn't have exceptions, the language's creators believe that coupling exceptions to a control structure, like `try-catch-finally` idiom, results in convoluted code.
+
+More on [Why does Go not have exceptions?](https://golang.org/doc/faq#exceptions)
 
 ### Error Handling is One Thing
 
